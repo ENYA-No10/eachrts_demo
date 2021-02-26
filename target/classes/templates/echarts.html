@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 引入 ECharts 文件 -->
+    <script src="/echarts.min.js"></script>
+    <script src="/jquery.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div id="main" style="width: 600px;height:400px;"></div>
+<input type="button" value="charts" onclick="test()">
+</body>
+</html>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    /*// 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: 'ECharts 入门示例'
+        },
+        tooltip: {},
+        legend: {
+            data:['销量']
+        },
+        xAxis: {
+            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+        },
+        yAxis: {},
+        series: [{
+            name: '销量',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);*/
+
+
+    //折线与柱状图
+    /*function test(){
+        var myChart = echarts.init(document.getElementById('main'));
+
+        $.ajax({
+            url:"/getData",
+            data:{},
+            dataType:"json",
+            type: "post",
+            async: false,
+            success: function (result){
+                var colors = [ '#f3d957', '#d14a61'];//可以设置颜色,多个系列可以写多个
+                myChart.setOption({
+
+                    color : colors,
+                    title: {
+                        text: 'ECharts 实例'
+                    },
+                    tooltip: {
+                        trigger : 'axis'
+                    },
+                    legend: {
+                        data:['销量']
+                    },
+                    xAxis: {name: "种类",data: result.type},
+                    yAxis: {},
+                    series: [{
+                        name: "销量", type: "line",data: result.data,
+                    },{
+                        name: "销量2", type: "line",data: result.data2,
+                    }],
+
+                })
+            }
+        })
+    }*/
+
+    // 饼状图
+    // 基于准备好的dom，初始化echarts实例
+   /* var myChart = echarts.init(document.getElementById('main'));
+
+    myChart.setOption({
+        series : [
+            {
+                name: '访问来源',
+                type: 'pie',    // 设置图表类型为饼图
+                radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                                //radius	英[ˈreɪdiəs]半径
+                // roseType: 'angle',// 把饼图显示成南丁格尔图。
+                data:[          // 数据数组，name 为数据项名称，value 为数据项值
+                    {value:235, name:'视频广告'},
+                    {value:274, name:'联盟广告'},
+                    {value:310, name:'邮件营销'},
+                    {value:335, name:'直接访问'},
+                    {value:400, name:'搜索引擎'}
+                ]
+            }
+        ]
+    })*/
+
+
+    // 饼状图,后台
+    function test(){
+        var myChart = echarts.init(document.getElementById('main'));
+
+        var arr = [];
+        $.ajax({
+            url:"/getData",
+            data:{},
+            dataType:"json",
+            type: "post",
+            async: false,
+            success: function (result){
+                // console.log(result);
+                for (var i = 0;i < result.data.length; i++){
+                    var map = {};
+                    map.value = result.data[i];
+                    map.name = result.type[i];
+                    // console.log(map);
+                    // arr[i] = map;
+                    arr.push(map);
+                }
+                console.log(arr);
+
+                myChart.setOption({
+                    title: {
+                        text: '饼状图  ECharts 实例'
+                    },
+                    tooltip: {},
+                    series : [
+                        {
+                            name: '访问来源',
+                            type: 'pie',    // 设置图表类型为饼图
+                            radius: '50%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                            data: arr      // 数据数组，name 为数据项名称，value 为数据项值
+                        }
+                    ]
+                })
+            }
+        })
+    }
+
+
+
+</script>

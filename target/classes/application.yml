@@ -1,0 +1,7 @@
+server:
+  port: 5000
+
+spring:
+    #关闭缓存
+  thymeleaf:
+    cache: false
